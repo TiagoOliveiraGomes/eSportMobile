@@ -3,20 +3,23 @@ import React, { useEffect, useState } from 'react'
 import { styles } from './styles'
 import logoImg from '../../assets/logo-nlw-esports.png'
 import Heading from '../../components/heading'
-import GameCard from '../../components/gameCard'
-
-import { GAMES } from '../../utils/games'
+import GameCard, { GameCardProps } from '../../components/gameCard'
 
 export function Home() {
-  const [gameList, setGameList] = useState()
+  const [gameList, setGameList] = useState<GameCardProps[]>([])
 
   useEffect(()=>{
+    let unmount = false
     async function getGameList () {
       const response = await fetch('http://192.168.0.102:3333/games')
       const data = await response.json()
-      setGameList(data)
+      !unmount && setGameList(data)
     }
     getGameList()
+
+    return () => {
+      unmount = true
+    }
   }, [])
 
   return (
