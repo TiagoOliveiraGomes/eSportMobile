@@ -16,14 +16,14 @@ interface localProps extends TouchableOpacityProps {
     data: GameCardProps
 }
 
-export default function GameCard({data}: localProps ) {
-    const {id, _count, bannerUrl, title, ...rest} = data
+export default function GameCard({data, ...rest}: localProps ) {
+    const {id, _count, bannerUrl, title} = data
 
   return (
     <TouchableOpacity style={styles.Container} {...rest}>
         <ImageBackground 
         style={styles.cover}
-        source={{uri: bannerUrl}}
+        source={{uri: data.bannerUrl}}
         >
 
         <LinearGradient
@@ -31,10 +31,10 @@ export default function GameCard({data}: localProps ) {
         style={styles.footer}
         >
             <Text style={styles.name}>
-                {title}
+                {data.title}
             </Text>
             <Text style={styles.ads}>
-                {_count.ads} anúncios
+                {data._count.ads} anúncios
             </Text>
         </LinearGradient>
         </ImageBackground>

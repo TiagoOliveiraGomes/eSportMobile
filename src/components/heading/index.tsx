@@ -6,7 +6,7 @@ interface HeadingProps extends ViewProps {
   subtitle: string
 } 
 
-export default function Heading(props: HeadingProps) {
+export function Heading(props: HeadingProps) {
   const { title, subtitle, ...rest} = props
   return (
     <View style={styles.Container}>
