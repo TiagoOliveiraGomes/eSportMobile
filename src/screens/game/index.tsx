@@ -9,6 +9,7 @@ import { Entypo } from '@expo/vector-icons'
 import { THEME } from '../../theme'
 import { Heading } from '../../components/heading'
 import { DuoCard, DuoCardProps } from '../../components/duoCard'
+import { DuoMatch } from '../../components/duoMatch'
 
 
 export function Game() {
@@ -16,9 +17,17 @@ export function Game() {
     const game = route.params as GameParams
     const navigation = useNavigation()
     const [duos, setDuos] = useState<DuoCardProps[]>([])
+    const [ discordDuoSelected, setDiscordDuoSelected ] = useState('')
 
     function handleGoBack () {
       navigation.goBack()
+    }
+
+    async function getDiscordUser(adsId: string) {
+      const response = await fetch(`http://192.168.0.102:3333/ads/${adsId}/discord`);
+        const data = await response.json();
+        
+        setDiscordDuoSelected(data.discord)
     }
 
     useEffect(() => {
@@ -67,7 +76,7 @@ export function Game() {
           renderItem={({item}) => (
             <DuoCard
             data={duos[0]}
-            onConnect={() => {}}
+            onConnect={() => {getDiscordUser(item.id)}}
             />
           )}
           horizontal
@@ -82,6 +91,11 @@ export function Game() {
           />
 
 
+            <DuoMatch
+            visible={discordDuoSelected.length > 0}
+            discord='exemplo#0101'
+            onClose={() => setDiscordDuoSelected('')}
+            />
         </SafeAreaView>
     </Background>
   )
